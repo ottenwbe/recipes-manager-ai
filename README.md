@@ -1,4 +1,4 @@
-# recipes-analyzer
+# recipes-recommender
 
 Micro-Service that analyzes all recipes of recipe-manager.
 
