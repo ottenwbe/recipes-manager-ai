@@ -13,4 +13,4 @@ WORKDIR /app
 ENV FLASK_ENV=prod
 ENV FLASK_APP="analyzer"
 
-ENTRYPOINT ["flask", "run"]
+ENTRYPOINT ["flask", "run", "--host", "0.0.0.0"]
