@@ -1,4 +1,5 @@
 import yaml
+import os.path
 
 RECIPE_SERVER = "recipe-server"
 DEFAULT_RECIPE_SERVER = 'localhost:8080'
@@ -18,7 +19,10 @@ class RecipeStatsConfig:
                 return {}
 
         def make_config(self):
-            cfg_file = self._read_yaml('/etc/recipes-recommendations/config.yml')
+            if (os.path.isfile('config.yml')):
+                cfg_file = self._read_yaml('config.yml')
+            else:
+                cfg_file = self._read_yaml('/etc/recipes-recommendations/config.yml')
             if cfg_file.get(RECIPE_SERVER) is not None:
                 self.RECIPE_SERVER = cfg_file.get(RECIPE_SERVER)
 
