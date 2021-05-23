@@ -10,11 +10,11 @@ def calc_simple_similarity(recipe_id, num):
         component_per_recipe[recipe_id], component_per_recipe)
     recipe_similarities = _sort_and_crop(recipe_similarities, num)
 
-    return _make_result(recipe_similarities)
+    return { 'recipes': _make_result(recipe_similarities) }
 
 
 def _make_result(similarities):
-    result = set()
+    result = []
     for s in similarities:
         result.append(s['id'])
     return result
