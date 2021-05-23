@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM docker.io/python:3.9-slim-buster
 
 ADD analyzer/ /app/analyzer/
 ADD requirements.txt /app

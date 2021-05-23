@@ -8,7 +8,12 @@ def root():
     return 'Analyzer'
 
 
-@app.route("/recommendation/<recipe_id>/components")
+@app.route("/test")
+def test():
+    """Recommend n recipes based on an id."""
+    return "test"
+
+@app.route("/api/v1/recommendation/<recipe_id>/components")
 def recommend_recipe(recipe_id):
     """Recommend n recipes based on an id."""
     num = request.args.get('num')
