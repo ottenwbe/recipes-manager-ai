@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.9]
 
     steps:
     - uses: actions/checkout@v2
@@ -55,3 +55,12 @@ jobs:
     - name: Docker Buildx (build)
       run: |
         docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
+    - name: Login to DockerHub
+      if: success() && github.event_name != 'pull_request'
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Docker Buildx (push)
+      run: |
+        docker buildx build --output "type=image,push=true" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .        
