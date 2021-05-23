@@ -8,6 +8,9 @@ on:
     branches: 
       - main
       - 'feature/**'
+  create:
+    tags:
+      - v*
   pull_request:
     branches: [ main ]
 
@@ -49,4 +52,6 @@ jobs:
         qemu-version: latest          
     - name: Available platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
-
+    - name: Docker Buildx (build)
+      run: |
+        docker buildx build --output "type=image,push=false" ${{ steps.prepare.outputs.buildx_args }} --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
