@@ -18,7 +18,7 @@ class RecipeStatsConfig:
                 return {}
 
         def make_config(self):
-            cfg_file = self._read_yaml('config.yml')
+            cfg_file = self._read_yaml('/etc/recipes-recommendations/config.yml')
             if cfg_file.get(RECIPE_SERVER) is not None:
                 self.RECIPE_SERVER = cfg_file.get(RECIPE_SERVER)
 

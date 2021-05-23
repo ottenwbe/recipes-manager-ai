@@ -5,13 +5,8 @@ from analyzer import app, similarities
 @app.route("/")
 def root():
     """Root Route"""
-    return 'Analyzer'
+    return 'Recipes Analyzer'
 
-
-@app.route("/test")
-def test():
-    """Recommend n recipes based on an id."""
-    return "test"
 
 @app.route("/api/v1/recommendation/<recipe_id>/components")
 def recommend_recipe(recipe_id):
