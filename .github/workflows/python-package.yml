@@ -54,4 +54,4 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
     - name: Docker Buildx (build)
       run: |
-        docker buildx build --output "type=image,push=false" ${{ steps.prepare.outputs.buildx_args }} --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
+        docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
