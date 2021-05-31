@@ -61,7 +61,7 @@ def _get_recipe_components():
 
     logging.info("get recipes from " + RECIPE_CONFIG.RECIPE_SERVER + '/api/v1/recipes')
 
-    if not r.ok():
+    if not r.ok:
         logging.error("Could not get recipes: " + r.status_code)
         return component_per_recipe
 
