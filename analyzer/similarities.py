@@ -58,7 +58,14 @@ def _get_recipe_components():
     component_per_recipe = dict()  # np.array([])
 
     r = requests.get(RECIPE_CONFIG.RECIPE_SERVER + '/api/v1/recipes')
-    for idx, recipe_id in enumerate(r.json()):
+
+    logging.info("get recipes from " + RECIPE_CONFIG.RECIPE_SERVER + '/api/v1/recipes')
+
+    if not r.ok():
+        logging.error("Could not get recipes: " + r.status_code)
+        return component_per_recipe
+
+    for idx, recipe_id in enumerate(r.json()['recipes']):
         r = requests.get(RECIPE_CONFIG.RECIPE_SERVER +
                          '/api/v1/recipes/r/' + recipe_id)
         components = set()
@@ -69,5 +76,7 @@ def _get_recipe_components():
             logging.error("Could not add valid recipe" + str(recipe_id))
         component_per_recipe[recipe_id] = {
             'id': recipe_id, 'components': components}
+
+    logging.info(component_per_recipe)
 
     return component_per_recipe
