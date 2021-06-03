@@ -24,6 +24,6 @@ def test_read_yml_config():
             writer.write(config.RECIPE_SERVER + ": ahost:123")
         cfg1 = RecipeStatsConfig()
         cfg1.make_config()
-        assert cfg1.RECIPE_SERVER == "ahost:123"
+        assert cfg1.RECIPE_SERVER == "bhost:123"
     finally:
         os.remove('config.yml')
