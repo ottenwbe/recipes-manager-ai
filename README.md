@@ -6,7 +6,11 @@ Micro-Service that analyzes the recipes of [recipes-manager](https://github.com/
 
 ## Features
 
-1. Recommend 
+1. Recommend recipes based on similarities of components
+
+    ````
+    <url>/api/v1/recommendation/<recipe_id>/components
+    ````
 
 
 ## Run with Flask
