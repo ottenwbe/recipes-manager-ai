@@ -15,3 +15,9 @@ pip install -r requirements.txt
 ````bash
 FLASK_ENV=development FLASK_APP="analyzer" flask run
 ````
+
+## Development
+
+````bash
+pytest -v
+````
