@@ -21,12 +21,14 @@
 # SOFTWARE.
 
 
-from analyzer import client
+import logging
+from analyzer import recipes_client
 
 
-def calc_simple_similarity(recipe_id, num, c=client.Client()):
+def calc_simple_similarity(recipe_id, num, c=recipes_client.Client()):
     """Calculate similarities of other recipes based on given id"""
-    component_per_recipe = c.get_recipe_components()
+    recipes = c.get_full_recipes()
+    component_per_recipe = _extract_recipe_components(recipes)
     recipe_similarities = _calc_jaccard_similarities(
         component_per_recipe[recipe_id], component_per_recipe)
     recipe_similarities = _sort_and_crop(recipe_similarities, num)
@@ -75,3 +77,23 @@ def _append_recipe_similarity(reference_recipe, recipe_similarities, val):
             reference_recipe['components'], val['components'])
         recipe_similarities.append({'id': val['id'], 'score': score})
     return recipe_similarities
+
+def _extract_recipe_components(recipes):
+
+    component_per_recipe = dict()
+
+    for r in recipes:
+        components = set()
+        try:
+            for component in r.json()['components']:
+                components.add(component['name'])
+        
+            recipe_id = r['id']
+            component_per_recipe[recipe_id] = {
+                'id': recipe_id, 'components': components
+            }
+        except:
+            logging.error("Could not add valid recipe")
+            
+    logging.info(component_per_recipe)
+    return component_per_recipe

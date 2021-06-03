@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 
+import logging
 from flask import request
 from analyzer import app, similarities
 

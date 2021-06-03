@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 
+import logging
 from flask import Flask
 from analyzer.config import RecipeStatsConfig
 
@@ -38,3 +39,5 @@ configure_app()
 
 # import the controller
 from analyzer import controller
+
+app.logger.info("Recipes Analyzer started")
