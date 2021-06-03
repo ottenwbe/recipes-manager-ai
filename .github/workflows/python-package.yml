@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python application
+name: Build and Deploy App
 
 on:
   push:
@@ -34,6 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         pip install -r requirements.txt
+        pip install -r requirements-test.txt
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -42,20 +43,19 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test 
       run: |
-        python -m unittest tests/*_unittest.py
+        pytest -v
 
     # build test docker and push it
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
     - name: Set up Docker Buildx
-      id: buildx
-      uses: crazy-max/ghaction-docker-buildx@v3
-      with:
-        buildx-version: latest
-        qemu-version: latest          
+      uses: docker/setup-buildx-action@v1          
     - name: Available platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
     - name: Docker Buildx (build)
       run: |
         docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
+        
     - name: Login to DockerHub
       if: success() && github.event_name != 'pull_request'
       uses: docker/login-action@v1
