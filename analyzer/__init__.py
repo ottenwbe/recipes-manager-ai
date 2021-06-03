@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 
-import logging
 from flask import Flask
 from analyzer.config import RecipeStatsConfig
 

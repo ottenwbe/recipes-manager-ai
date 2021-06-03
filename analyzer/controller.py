@@ -38,12 +38,13 @@ def recommend_recipe(recipe_id):
        Example: <url>/api/v1/recommendation/1234/components?num=10
     """
     num = request.args.get('num')
-    num = ensure_num(num)
+    num = _ensure_num(num)
+    app.logger.info("num recommendations requested " + str(num))
     r = similarities.calc_simple_similarity(recipe_id, num)
     return r
 
 
-def ensure_num(num):
+def _ensure_num(num):
     if (num is None) or (int(num) < -1):
         num = -1
     return int(num)

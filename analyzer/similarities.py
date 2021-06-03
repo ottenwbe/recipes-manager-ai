@@ -49,7 +49,7 @@ def _jaccard_similarity_set(set1, set2):
     if union > 0:
         return float(intersection) / union
     else:
-        return 1.0
+        return 0.0
 
 
 def _take_score(element):
@@ -68,6 +68,7 @@ def _calc_jaccard_similarities(reference_recipe, component_per_recipe):
     for val in component_per_recipe.values():
         recipe_similarities = _append_recipe_similarity(
             reference_recipe, recipe_similarities, val)
+    logging.error(recipe_similarities)
     return recipe_similarities
 
 
@@ -78,6 +79,7 @@ def _append_recipe_similarity(reference_recipe, recipe_similarities, val):
         recipe_similarities.append({'id': val['id'], 'score': score})
     return recipe_similarities
 
+
 def _extract_recipe_components(recipes):
 
     component_per_recipe = dict()
@@ -85,15 +87,15 @@ def _extract_recipe_components(recipes):
     for r in recipes:
         components = set()
         try:
-            for component in r.json()['components']:
+            for component in r['components']:
                 components.add(component['name'])
-        
-            recipe_id = r['id']
+
+            recipe_id = str(r['id'])
             component_per_recipe[recipe_id] = {
                 'id': recipe_id, 'components': components
             }
         except:
             logging.error("Could not add valid recipe")
-            
-    logging.info(component_per_recipe)
+
+    logging.debug(component_per_recipe)
     return component_per_recipe
