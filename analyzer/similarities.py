@@ -1,16 +1,37 @@
-import requests
-import logging
-from analyzer import RECIPE_CONFIG
+# MIT License
+#
+# Copyright (c) 2021 Beate Ottenwälder
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 
-def calc_simple_similarity(recipe_id, num):
+from analyzer import client
+
+
+def calc_simple_similarity(recipe_id, num, c=client.Client()):
     """Calculate similarities of other recipes based on given id"""
-    component_per_recipe = _get_recipe_components()
+    component_per_recipe = c.get_recipe_components()
     recipe_similarities = _calc_jaccard_similarities(
         component_per_recipe[recipe_id], component_per_recipe)
     recipe_similarities = _sort_and_crop(recipe_similarities, num)
 
-    return { 'recipes': _make_result(recipe_similarities) }
+    return {'recipes': _make_result(recipe_similarities)}
 
 
 def _make_result(similarities):
@@ -35,7 +56,9 @@ def _take_score(element):
 
 def _sort_and_crop(scores, num):
     scores.sort(key=_take_score, reverse=True)
-    return scores[:num]
+    if num >= 0:
+        return scores[:num]
+    return scores
 
 
 def _calc_jaccard_similarities(reference_recipe, component_per_recipe):
@@ -52,31 +75,3 @@ def _append_recipe_similarity(reference_recipe, recipe_similarities, val):
             reference_recipe['components'], val['components'])
         recipe_similarities.append({'id': val['id'], 'score': score})
     return recipe_similarities
-
-
-def _get_recipe_components():
-    component_per_recipe = dict()  # np.array([])
-
-    r = requests.get(RECIPE_CONFIG.RECIPE_SERVER + '/api/v1/recipes')
-
-    logging.info("get recipes from " + RECIPE_CONFIG.RECIPE_SERVER + '/api/v1/recipes')
-
-    if not r.ok:
-        logging.error("Could not get recipes: " + r.status_code)
-        return component_per_recipe
-
-    for idx, recipe_id in enumerate(r.json()['recipes']):
-        r = requests.get(RECIPE_CONFIG.RECIPE_SERVER +
-                         '/api/v1/recipes/r/' + recipe_id)
-        components = set()
-        try:
-            for component in r.json()['components']:
-                components.add(component['name'])
-        except:
-            logging.error("Could not add valid recipe" + str(recipe_id))
-        component_per_recipe[recipe_id] = {
-            'id': recipe_id, 'components': components}
-
-    logging.info(component_per_recipe)
-
-    return component_per_recipe

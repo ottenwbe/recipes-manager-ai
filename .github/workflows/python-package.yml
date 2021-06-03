@@ -42,7 +42,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test 
       run: |
-        python -m unittest tests/*_unittest.py
+        pytest -v
 
     # build test docker and push it
     - name: Set up QEMU
@@ -54,6 +54,7 @@ jobs:
     - name: Docker Buildx (build)
       run: |
         docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
+        
     - name: Login to DockerHub
       if: success() && github.event_name != 'pull_request'
       uses: docker/login-action@v1
