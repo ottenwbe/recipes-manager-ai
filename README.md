@@ -1,22 +1,31 @@
 # recipes-recommender
 
-[![Python application](https://github.com/ottenwbe/recipes-manager-recommender/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/ottenwbe/recipes-manager-recommender/actions/workflows/python-package.yml)
+[![Build and Deploy App](https://github.com/ottenwbe/recipes-manager-recommender/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/ottenwbe/recipes-manager-recommender/actions/workflows/python-package.yml)
 
-Micro-Service that analyzes the recipes of recipe-manager.
+Micro-Service that analyzes the recipes of [recipes-manager](https://github.com/ottenwbe/recipes-manager).
 
-## Dependencies
+## Features
 
-````bash
-pip install -r requirements.txt
-````
+1. Recommend 
+
 
 ## Run with Flask
 
-````bash
-FLASK_ENV=development FLASK_APP="analyzer" flask run
-````
+1. Install Dependencies
+
+    ````bash
+    pip install -r requirements.txt
+    ````
+
+2. Start Application
+
+    ````bash
+    FLASK_ENV=development   FLASK_APP="analyzer" flask run
+    ````
 
 ## Development
+
+# Testing
 
 ````bash
 pytest -v
