@@ -23,10 +23,10 @@ jobs:
 
       - name: Get current date/time
         id: date
-        run: echo "::set-output name=date::$(date +'%F %T')"        
-      - name: Docker Buildx (build)
-        run: |
-          docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "build-date=${{ steps.date.outputs.date }}" --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
+        run: echo "::set-output name=date::$(date +'%F %T')"     
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}   
 
       # login to 
       - name: Login to DockerHub
@@ -38,7 +38,7 @@ jobs:
       - name: Docker Buildx (push)
         if: success() && github.event_name != 'pull_request'
         run: |
-          docker buildx build --output "type=image,push=true" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=${{ github.ref }}" -t docker.io/ottenwbe/recipes-manager-recommender:${{ github.ref }} -f Dockerfile .        
+          docker buildx build --output "type=image,push=true" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "build-date=${{ steps.date.outputs.date }}" --label "version=${{ steps.get_version.outputs.VERSION  }}" -t docker.io/ottenwbe/recipes-manager-recommender:${{ steps.get_version.outputs.VERSION  }} -f Dockerfile .        
 
       - name: Build Changelog
         id: github_release
