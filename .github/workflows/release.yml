@@ -23,7 +23,7 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"        
+        run: echo "::set-output name=date::$(date +'%F %T')"        
       - name: Docker Buildx (build)
         run: |
           docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "build-date=${{ steps.date.outputs.date }}" --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
