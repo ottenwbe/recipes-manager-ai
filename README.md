@@ -1,6 +1,7 @@
 # recipes-recommender
 
 [![Build and Deploy App](https://github.com/ottenwbe/recipes-manager-recommender/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/ottenwbe/recipes-manager-recommender/actions/workflows/python-package.yml)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ottenwbe/recipes-manager-recommender/blob/master/LICENSE)
 
 Micro-Service that analyzes the recipes of [recipes-manager](https://github.com/ottenwbe/recipes-manager).
 
