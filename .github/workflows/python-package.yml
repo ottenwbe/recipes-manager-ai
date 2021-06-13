@@ -9,7 +9,7 @@ on:
       - main
       - 'feature/**'
       - 'fix/**'
-      
+
   pull_request:
     branches: [ main ]
 
@@ -51,9 +51,12 @@ jobs:
       uses: docker/setup-buildx-action@v1          
     - name: Available platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"              
     - name: Docker Buildx (build)
       run: |
-        docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
+        docker buildx build --output "type=image,push=false" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "build-date=${{ steps.date.outputs.date }}" --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .
     
     # login to 
     - name: Login to DockerHub
@@ -65,4 +68,4 @@ jobs:
     - name: Docker Buildx (push)
       if: success() && github.event_name != 'pull_request'
       run: |
-        docker buildx build --output "type=image,push=true" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .        
+        docker buildx build --output "type=image,push=true" --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --label "build-date=${{ steps.date.outputs.date }}" --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .        
