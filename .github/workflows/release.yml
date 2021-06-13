@@ -21,7 +21,7 @@ jobs:
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
 
-      - name: Get current date
+      - name: Get current date/time
         id: date
         run: echo "::set-output name=date::$(date +'%F %T')"        
       - name: Docker Buildx (build)
