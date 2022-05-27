@@ -35,3 +35,14 @@ Micro-Service that analyzes the recipes of [recipes-manager](https://github.com/
 ````bash
 pytest -v
 ````
+
+## Release
+
+GitHub Workflows are used for testing and also building releases of docker containers.
+
+To create a version, simply tag the master branch.
+
+````bash
+git tag v<next release>
+git push --tags
+````
