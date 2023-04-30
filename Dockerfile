@@ -1,4 +1,4 @@
-FROM docker.io/python:3.9-slim-buster
+FROM docker.io/python:3.11-bullseye
 LABEL maintainer="ottenwbe.public@gmail.com"
 
 ADD analyzer/ /app/analyzer/
