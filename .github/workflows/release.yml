@@ -23,10 +23,10 @@ jobs:
 
       - name: Get current date/time
         id: date
-        run: echo "::set-output name=date::$(date +'%F %T')"     
+        run: echo "date=$(date +'%F %T')" >> $GITHUB_OUTPUT 
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}   
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
 
       # login to 
       - name: Login to DockerHub
