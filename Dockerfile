@@ -1,4 +1,4 @@
-FROM docker.io/python:3.11-bullseye
+FROM docker.io/python:3.12-bullseye
 LABEL maintainer="ottenwbe.public@gmail.com"
 
 ADD analyzer/ /app/analyzer/
