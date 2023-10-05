@@ -69,4 +69,4 @@ jobs:
     - name: Docker Buildx (push)
       if: success() && github.event_name != 'pull_request'
       run: |
-        docker buildx build --output "type=image,push=true" --platform linux/arm64/v8,linux/amd64 --label "build-date=${{ steps.date.outputs.date }}" --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .        gi
+        docker buildx build --output "type=image,push=true" --platform linux/arm64/v8,linux/amd64 --label "build-date=${{ steps.date.outputs.date }}" --label "version=development" -t docker.io/ottenwbe/recipes-manager-recommender:development -f Dockerfile .        
